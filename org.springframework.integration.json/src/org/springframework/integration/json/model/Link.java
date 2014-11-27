@@ -16,11 +16,11 @@ public class Link extends IntModelElement {
 	public Link() {
 	}
 	
-	public Link(String type, int sourceId, int targetId) {
+	public Link(String type, int from, int to) {
 		super();
 		setType(type);
-		setFrom(sourceId);
-		setTo(targetId);
+		setFrom(from);
+		setTo(to);
 		initProperties();
 	}
 
