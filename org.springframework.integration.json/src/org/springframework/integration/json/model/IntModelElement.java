@@ -21,8 +21,7 @@ public class IntModelElement {
 	
 	public IntModelElement(Element element) {
 		this.element = element;
-		this.type = element.getNodeName();
-		this.type = element.getNodeName();
+		this.type = extractName(element);
 		this.properties = initProperties();
 	}
 	
@@ -72,6 +71,12 @@ public class IntModelElement {
 			}
 		}
 		return element;
+	}
+	
+	public static String extractName(Element element) {
+		String nodeName = element.getNodeName();
+		int idx = nodeName.indexOf(':');
+		return idx > 0 ? nodeName.substring(idx + 1) : nodeName; 
 	}
 
 }

@@ -81,8 +81,6 @@ public class IntNode extends IntModelElement {
 		return super.initProperties();
 	}
 	
-	
-	
 	@Override
 	protected boolean ignoreProperty(String propertyName) {
 		return super.ignoreProperty(propertyName)
@@ -103,7 +101,7 @@ public class IntNode extends IntModelElement {
 	
 	static protected SingleLinkPort createSingleLinkAnchor(Element element, String attributeName, String transitionType) {
 		SingleLinkPort anchor = new SingleLinkPort(attributeName, transitionType);
-		if (element.hasAttribute(attributeName)) {
+		if (element != null && element.hasAttribute(attributeName)) {
 			anchor.setOppositeEndSemanticId(element.getAttribute(attributeName));
 		}
 		return anchor;

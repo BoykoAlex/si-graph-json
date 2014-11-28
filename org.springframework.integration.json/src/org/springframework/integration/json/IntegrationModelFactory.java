@@ -19,6 +19,7 @@ import org.springframework.integration.json.model.EnricherNode;
 import org.springframework.integration.json.model.FilterNode;
 import org.springframework.integration.json.model.GatewayNode;
 import org.springframework.integration.json.model.InboundChannelAdapterNode;
+import org.springframework.integration.json.model.IntModelElement;
 import org.springframework.integration.json.model.IntNode;
 import org.springframework.integration.json.model.OutboundChannelAdapterNode;
 import org.springframework.integration.json.model.RouterNode;
@@ -29,7 +30,7 @@ import org.w3c.dom.Element;
 
 public class IntegrationModelFactory implements IModelFactory {
 	
-	private static Map<String, Class<? extends IntNode>> SUPPORTED_ELEMENTS = new HashMap<String, Class<? extends IntNode>>();
+	public static Map<String, Class<? extends IntNode>> SUPPORTED_ELEMENTS = new HashMap<String, Class<? extends IntNode>>();
 	static {
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_AGGREGATOR, FilterNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_BRIDGE, ThroughNode.class);
@@ -118,7 +119,7 @@ public class IntegrationModelFactory implements IModelFactory {
 	@Override
 	public IntNode createJsonModel(Object parent, Element childElement,
 			int order) {
-		Class<? extends IntNode> clazz = SUPPORTED_ELEMENTS.get(childElement.getNodeName());
+		Class<? extends IntNode> clazz = SUPPORTED_ELEMENTS.get(IntModelElement.extractName(childElement));
 		if (clazz != null) {
 			try {
 				Constructor<? extends IntNode> constructor = clazz.getConstructor(Element.class, int.class);

@@ -6,6 +6,10 @@ import org.springframework.integration.json.IntegrationSchemaConstants;
 import org.w3c.dom.Element;
 
 public class RouterNode extends ThroughNode {
+	
+	public RouterNode() {
+		super();
+	}
 
 	public RouterNode(Element element, int id) {
 		super(element, id);
