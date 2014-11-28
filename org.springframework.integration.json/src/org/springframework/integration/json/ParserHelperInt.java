@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.nio.ByteOrder;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -78,4 +77,5 @@ public class ParserHelperInt {
 		printDocument(doc, baos);
 		return baos.toString();
 	}
+	
 }

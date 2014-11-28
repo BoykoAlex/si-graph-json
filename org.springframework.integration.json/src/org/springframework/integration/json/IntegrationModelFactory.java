@@ -1,13 +1,3 @@
-/*******************************************************************************
- *  Copyright (c) 2012 VMware, Inc.
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  which accompanies this distribution, and is available at
- *  http://www.eclipse.org/legal/epl-v10.html
- *
- *  Contributors:
- *      VMware, Inc. - initial API and implementation
- *******************************************************************************/
 package org.springframework.integration.json;
 
 import java.lang.reflect.Constructor;
@@ -15,12 +5,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.integration.json.model.Constants;
 import org.springframework.integration.json.model.EnricherNode;
 import org.springframework.integration.json.model.FilterNode;
 import org.springframework.integration.json.model.GatewayNode;
 import org.springframework.integration.json.model.InboundChannelAdapterNode;
 import org.springframework.integration.json.model.IntModelElement;
 import org.springframework.integration.json.model.IntNode;
+import org.springframework.integration.json.model.Link;
 import org.springframework.integration.json.model.OutboundChannelAdapterNode;
 import org.springframework.integration.json.model.RouterNode;
 import org.springframework.integration.json.model.ServiceActivatorNode;
@@ -30,7 +22,7 @@ import org.w3c.dom.Element;
 
 public class IntegrationModelFactory implements IModelFactory {
 	
-	public static Map<String, Class<? extends IntNode>> SUPPORTED_ELEMENTS = new HashMap<String, Class<? extends IntNode>>();
+	public static Map<String, Class<? extends IntModelElement>> SUPPORTED_ELEMENTS = new HashMap<String, Class<? extends IntModelElement>>();
 	static {
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_AGGREGATOR, FilterNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_BRIDGE, ThroughNode.class);
@@ -114,15 +106,19 @@ public class IntegrationModelFactory implements IModelFactory {
 				ThroughNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_TRANSFORMER,
 				ThroughNode.class);
+		SUPPORTED_ELEMENTS.put(Constants.TRANSITION_TYPE_DASH,
+				Link.class);
+		SUPPORTED_ELEMENTS.put(Constants.TRANSITION_TYPE_SOLID,
+				Link.class);
 	};
 
 	@Override
-	public IntNode createJsonModel(Object parent, Element childElement,
+	public IntModelElement createJsonModel(Object parent, Element childElement,
 			int order) {
-		Class<? extends IntNode> clazz = SUPPORTED_ELEMENTS.get(IntModelElement.extractName(childElement));
+		Class<? extends IntModelElement> clazz = SUPPORTED_ELEMENTS.get(IntModelElement.extractName(childElement));
 		if (clazz != null) {
 			try {
-				Constructor<? extends IntNode> constructor = clazz.getConstructor(Element.class, int.class);
+				Constructor<? extends IntModelElement> constructor = clazz.getConstructor(Element.class, int.class);
 				if (constructor != null) {
 					return constructor.newInstance(childElement, order);
 				}

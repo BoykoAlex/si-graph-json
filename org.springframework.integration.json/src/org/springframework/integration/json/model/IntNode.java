@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 	    @Type(value = OutboundChannelAdapterNode.class, name = "outbound-channel-adapter"),
 	    @Type(value = ServiceActivatorNode.class, name = "service-activator"),
 	    }) 
-public class IntNode extends IntModelElement {
+public class IntNode extends IntModelElement implements EnumeratedModelElement {
 		
 	private int id;
 	
@@ -75,7 +75,7 @@ public class IntNode extends IntModelElement {
 		return null;
 	}
 
-	protected LinkedHashMap<String, Object> initProperties() {
+	public LinkedHashMap<String, Object> initProperties() {
 		this.sourcePorts = initSourcePorts(element);
 		this.targetPorts = initTargetPorts(element);
 		return super.initProperties();
@@ -108,17 +108,17 @@ public class IntNode extends IntModelElement {
 	}
 	
 	@JsonIgnore
-	public List<Link> getSourceLinksFromXml(Map<String, IntNode> referenceRegistry) {
+	public List<Link> getSourceLinksFromXml(Map<String, IntModelElement> referenceRegistry) {
 		List<Link> list = new ArrayList<Link>();
 		if (getSourcePorts() != null) {
 			for (Port a : getSourcePorts()) {
 				if (a instanceof SingleLinkPort) {
 					SingleLinkPort port = (SingleLinkPort) a;
-					IntNode target = referenceRegistry.get(port
+					IntModelElement target = referenceRegistry.get(port
 							.getOppositeEndSemanticId());
-					if (target != null) {
+					if (target instanceof EnumeratedModelElement) {
 						Link link = new Link(port.getLinkType(), getId(),
-								target.getId());
+								((EnumeratedModelElement)target).getId());
 						link.setSourcePort(a.getName());
 						list.add(link);
 					}
@@ -129,16 +129,16 @@ public class IntNode extends IntModelElement {
 	}
 
 	@JsonIgnore
-	public List<Link> getTargetLinksFromXml(Map<String, IntNode> referenceRegistry) {
+	public List<Link> getTargetLinksFromXml(Map<String, IntModelElement> referenceRegistry) {
 		List<Link> list = new ArrayList<Link>();
 		if (getTargetPorts() != null) {
 			for (Port a : getTargetPorts()) {
 				if (a instanceof SingleLinkPort) {
 					SingleLinkPort port = (SingleLinkPort) a;
-					IntNode source = referenceRegistry.get(port
+					IntModelElement source = referenceRegistry.get(port
 							.getOppositeEndSemanticId());
-					if (source != null) {
-						Link link = new Link(port.getLinkType(), source.getId(),
+					if (source instanceof EnumeratedModelElement) {
+						Link link = new Link(port.getLinkType(), ((EnumeratedModelElement)source).getId(),
 								getId());
 						link.setTargetPort(a.getName());
 						list.add(link);

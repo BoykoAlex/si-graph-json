@@ -28,6 +28,8 @@ public class Main {
 				System.out.println(json);
 				
 				System.out.println(ParserHelperInt.convertJsonTextToXmlText(json.toString()));
+				
+				System.out.println(PaletteHelper.getPalette());
 			} finally {
 				if (is != null) {
 					is.close();

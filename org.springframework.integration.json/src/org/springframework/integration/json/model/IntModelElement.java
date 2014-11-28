@@ -25,7 +25,7 @@ public class IntModelElement {
 		this.properties = initProperties();
 	}
 	
-	protected LinkedHashMap<String, Object> initProperties() {
+	public LinkedHashMap<String, Object> initProperties() {
 		LinkedHashMap<String, Object> props = new LinkedHashMap<String, Object>();
 		if (element != null) {
 			for (int i = 0; i < element.getAttributes().getLength(); i++) {

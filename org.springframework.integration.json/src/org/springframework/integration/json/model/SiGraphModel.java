@@ -35,7 +35,7 @@ public class SiGraphModel {
 	
 	private IModelFactory factory;
 	
-	private Map<Element, IntNode> xmlToJsonCache = new HashMap<Element, IntNode>();
+	private Map<Element, IntModelElement> xmlToJsonCache = new HashMap<Element, IntModelElement>();
 	
 	private List<IntNode> nodes;
 	
@@ -69,43 +69,11 @@ public class SiGraphModel {
 		return refNodeRegistry;
 	}
 	
-	private List<IntNode> getChildrenFromXml() {
-		int count = 0;
-		List<IntNode> list = new ArrayList<IntNode>();
-		NodeList children = document.getDocumentElement().getChildNodes();
-		for (int i = 0; i < children.getLength(); i++) {
-			Node child = children.item(i);
-			if (child instanceof Element) {
-				Element childElem = (Element) child;
-				IntNode jsonChild = (IntNode) factory.createJsonModel(null, childElem,
-						count);
-				if (jsonChild != null) {
-					list.add(jsonChild);
-					count++;
-					xmlToJsonCache.put(childElem, jsonChild);
-				}
-			}
-		}
-		return list;
-	}
-	
-	private List<Link> getLinksFromXml() {
-		List<Link> list = new ArrayList<Link>();
-		if (nodes != null) {
-			Map<String, IntNode> referenceRegistry = createReferenceRegistry();
-			for (IntNode node : nodes) {
-				list.addAll(node.getSourceLinksFromXml(referenceRegistry));
-				list.addAll(node.getTargetLinksFromXml(referenceRegistry));
-			}
-		}
-		return list;
-	}
-	
-	private Map<String, IntNode> createReferenceRegistry() {
-		Map<String, IntNode> referenceRegistry = new HashMap<String, IntNode>();
+	private Map<String, IntModelElement> createReferenceRegistry() {
+		Map<String, IntModelElement> referenceRegistry = new HashMap<String, IntModelElement>();
 		if (xmlToJsonCache != null) {
 			for (Map.Entry<String, Node> entry : createRefNodeRegistry().entrySet()) {
-				IntNode node = xmlToJsonCache.get(entry.getValue());
+				IntModelElement node = xmlToJsonCache.get(entry.getValue());
 				if (node != null) {
 					referenceRegistry.put(entry.getKey(), node);
 				}
@@ -115,8 +83,38 @@ public class SiGraphModel {
 	}
 	
 	public void buildFromXml() {
-		nodes = getChildrenFromXml();
-		links = getLinksFromXml();
+		int count = 0;
+		nodes = new ArrayList<IntNode>();
+		links = new ArrayList<Link>();
+
+		NodeList children = document.getDocumentElement().getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child instanceof Element) {
+				Element childElem = (Element) child;
+				Object obj = factory.createJsonModel(null, childElem,
+						count);
+				if (obj instanceof IntNode) {
+					IntNode node = (IntNode) obj;
+					nodes.add(node);
+					count++;
+					xmlToJsonCache.put(childElem, node);
+				} else if (obj instanceof Link) {
+					Link link = (Link) obj;
+					links.add(link);
+					count++;
+					xmlToJsonCache.put(childElem, link);
+				}
+			}
+		}
+		
+		if (nodes != null) {
+			Map<String, IntModelElement> referenceRegistry = createReferenceRegistry();
+			for (IntNode node : nodes) {
+				links.addAll(node.getSourceLinksFromXml(referenceRegistry));
+				links.addAll(node.getTargetLinksFromXml(referenceRegistry));
+			}
+		}
 	}
 	
 	public List<IntNode> getNodes() {
