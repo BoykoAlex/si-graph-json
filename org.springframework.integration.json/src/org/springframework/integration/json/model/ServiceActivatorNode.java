@@ -18,12 +18,19 @@ public class ServiceActivatorNode extends ThroughNode {
 		if (getProperties() != null) {
 			String ref = (String) getProperties().get(IntegrationSchemaConstants.ATTR_REF);
 			String method = (String) getProperties().get(IntegrationSchemaConstants.ATTR_METHOD);
-			if (ref != null) {
-				if (method != null) {
-					return ref + '.' + method + "()";
-				} else {
-					return ref;
+			StringBuilder sb = new StringBuilder();
+			if (ref != null && !ref.isEmpty()) {
+				sb.append(ref);
+				if (method != null && !method.isEmpty()) {
+					sb.append('.');
 				}
+			}
+			if (method != null && !method.isEmpty()) {
+				sb.append(method);
+				sb.append("()");
+			}
+			if (sb.length() > 0) {
+				return sb.toString();
 			}
 		}
 		return super.getName();
