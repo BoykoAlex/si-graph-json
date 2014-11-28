@@ -5,13 +5,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.integration.json.model.ChannelNode;
 import org.springframework.integration.json.model.Constants;
 import org.springframework.integration.json.model.EnricherNode;
 import org.springframework.integration.json.model.FilterNode;
 import org.springframework.integration.json.model.GatewayNode;
 import org.springframework.integration.json.model.InboundChannelAdapterNode;
 import org.springframework.integration.json.model.IntModelElement;
-import org.springframework.integration.json.model.IntNode;
 import org.springframework.integration.json.model.Link;
 import org.springframework.integration.json.model.OutboundChannelAdapterNode;
 import org.springframework.integration.json.model.ResequencerNode;
@@ -28,7 +28,7 @@ public class IntegrationModelFactory implements IModelFactory {
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_AGGREGATOR, FilterNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_BRIDGE, ThroughNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_CHAIN, ThroughNode.class);
-		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_CHANNEL, IntNode.class);
+		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_CHANNEL, ChannelNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_CLAIM_CHECK_IN, ThroughNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_CLAIM_CHECK_OUT, ThroughNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_CONTROL_BUS,
@@ -86,7 +86,7 @@ public class IntegrationModelFactory implements IModelFactory {
 				RouterNode.class);
 		SUPPORTED_ELEMENTS.put(
 				IntegrationSchemaConstants.ELEM_PUBLISH_SUBSCRIBE_CHANNEL,
-				IntNode.class);
+				ChannelNode.class);
 		SUPPORTED_ELEMENTS.put(
 				IntegrationSchemaConstants.ELEM_RECIPIENT_LIST_ROUTER,
 				ThroughNode.class);

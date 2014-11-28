@@ -28,8 +28,9 @@ import org.w3c.dom.Element;
 	    @Type(value = OutboundChannelAdapterNode.class, name = "outbound-channel-adapter"),
 	    @Type(value = ServiceActivatorNode.class, name = "service-activator"),
 	    @Type(value = ResequencerNode.class, name = "resequencer"),
+	    @Type(value = ChannelNode.class, name = "channel"),
 	    }) 
-public class IntNode extends IntModelElement implements IEnumeratedModelElement {
+public class IntNode extends IntModelElement implements IEnumeratedModelElement, INamedModelElement {
 		
 	private int id;
 	
@@ -169,6 +170,15 @@ public class IntNode extends IntModelElement implements IEnumeratedModelElement 
 			}
 		}
 		return element;
+	}
+
+	@Override
+	public String getName() {
+		return getType();
+	}
+	
+	public void setName(String name) {
+		// nothing - name only for JSON serialization
 	}
 	
 }

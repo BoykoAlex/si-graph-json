@@ -26,7 +26,7 @@ import org.w3c.dom.NodeList;
 	    include = JsonTypeInfo.As.PROPERTY,  
 	    property = "format")  
 	@JsonSubTypes({  
-	    @Type(value = SiGraphModel.class, name = "Integration") })
+	    @Type(value = SiGraphModel.class, name = "integration") })
 public class SiGraphModel {
 	
 	private Document document;

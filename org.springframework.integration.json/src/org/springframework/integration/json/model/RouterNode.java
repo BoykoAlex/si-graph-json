@@ -37,8 +37,6 @@ public class RouterNode extends ThroughNode {
 			props.put(IntegrationSchemaConstants.ATTR_TIMEOUT, null);
 		}
 		return props;
-	}
-	
-	
+	}	
 
 }

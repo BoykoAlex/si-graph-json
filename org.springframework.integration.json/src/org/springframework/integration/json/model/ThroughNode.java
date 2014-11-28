@@ -1,6 +1,7 @@
 package org.springframework.integration.json.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.integration.json.IntegrationSchemaConstants;
@@ -28,6 +29,16 @@ public class ThroughNode extends IntNode {
 		List<SingleLinkPort> anchors = new ArrayList<SingleLinkPort>(1);
 		anchors.add(createSingleLinkAnchor(element, IntegrationSchemaConstants.ATTR_OUTPUT_CHANNEL, Constants.TRANSITION_TYPE_SOLID));
 		return anchors;
+	}
+	
+	@Override
+	public LinkedHashMap<String, Object> initProperties() {
+		LinkedHashMap<String, Object> props = super.initProperties();
+		if (element == null) {
+			props.put(IntegrationSchemaConstants.ATTR_REF, null);
+			props.put(IntegrationSchemaConstants.ATTR_METHOD, null);
+		}
+		return props;
 	}
 
 }
