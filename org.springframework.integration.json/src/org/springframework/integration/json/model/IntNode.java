@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 	    @Type(value = OutboundChannelAdapterNode.class, name = "outbound-channel-adapter"),
 	    @Type(value = ServiceActivatorNode.class, name = "service-activator"),
 	    }) 
-public class IntNode extends IntModelElement implements EnumeratedModelElement {
+public class IntNode extends IntModelElement implements IEnumeratedModelElement {
 		
 	private int id;
 	
@@ -116,9 +116,9 @@ public class IntNode extends IntModelElement implements EnumeratedModelElement {
 					SingleLinkPort port = (SingleLinkPort) a;
 					IntModelElement target = referenceRegistry.get(port
 							.getOppositeEndSemanticId());
-					if (target instanceof EnumeratedModelElement) {
+					if (target instanceof IEnumeratedModelElement) {
 						Link link = new Link(port.getLinkType(), getId(),
-								((EnumeratedModelElement)target).getId());
+								((IEnumeratedModelElement)target).getId());
 						link.setSourcePort(a.getName());
 						list.add(link);
 					}
@@ -137,8 +137,8 @@ public class IntNode extends IntModelElement implements EnumeratedModelElement {
 					SingleLinkPort port = (SingleLinkPort) a;
 					IntModelElement source = referenceRegistry.get(port
 							.getOppositeEndSemanticId());
-					if (source instanceof EnumeratedModelElement) {
-						Link link = new Link(port.getLinkType(), ((EnumeratedModelElement)source).getId(),
+					if (source instanceof IEnumeratedModelElement) {
+						Link link = new Link(port.getLinkType(), ((IEnumeratedModelElement)source).getId(),
 								getId());
 						link.setTargetPort(a.getName());
 						list.add(link);
