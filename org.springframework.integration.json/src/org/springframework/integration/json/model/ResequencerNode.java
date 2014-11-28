@@ -6,16 +6,8 @@ import java.util.List;
 import org.springframework.integration.json.IntegrationSchemaConstants;
 import org.w3c.dom.Element;
 
-public class FilterNode extends ThroughNode {
+public class ResequencerNode extends ThroughNode {
 	
-	public FilterNode() {
-		super();
-	}
-
-	public FilterNode(Element element, int id) {
-		super(element, id);
-	}
-
 	@Override
 	protected List<SingleLinkPort> initSourcePorts(Element element) {
 		List<SingleLinkPort> initSourceAnchors = super.initSourcePorts(element);
@@ -27,11 +19,18 @@ public class FilterNode extends ThroughNode {
 	public LinkedHashMap<String, Object> initProperties() {
 		LinkedHashMap<String, Object> initProperties = super.initProperties();
 		if (element == null) {
-			initProperties.put(IntegrationSchemaConstants.ATTR_THROW_EXCEPTION_ON_REJECTION, false);
+			initProperties.put(IntegrationSchemaConstants.ATTR_CORRELATION_STRATEGY, null);
+			initProperties.put(IntegrationSchemaConstants.ATTR_CORRELATION_STRATEGY_METHOD, null);
+			initProperties.put(IntegrationSchemaConstants.ATTR_SEND_TIMEOUT, null);
+			initProperties.put(IntegrationSchemaConstants.ATTR_SEND_PARTIAL_RESULT_ON_TIMEOUT, null);
+			initProperties.put(IntegrationSchemaConstants.ATTR_RELEASE_PARTIAL_SEQUENCES, null);
+			initProperties.put(IntegrationSchemaConstants.ATTR_TRACKED_CORRELATION_ID_CAPACITY, null);
+			initProperties.put(IntegrationSchemaConstants.ATTR_REAPER_INTERVAL, null);
+			initProperties.put(IntegrationSchemaConstants.ATTR_TIMEOUT, null);
 		}
 		return initProperties;
 	}
-	
+
 	
 
 }

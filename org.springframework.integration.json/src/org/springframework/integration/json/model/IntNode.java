@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.springframework.integration.json.IntegrationSchemaConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -26,6 +27,7 @@ import org.w3c.dom.Element;
 	    @Type(value = InboundChannelAdapterNode.class, name = "inbound-channel-adapter"),
 	    @Type(value = OutboundChannelAdapterNode.class, name = "outbound-channel-adapter"),
 	    @Type(value = ServiceActivatorNode.class, name = "service-activator"),
+	    @Type(value = ResequencerNode.class, name = "resequencer"),
 	    }) 
 public class IntNode extends IntModelElement implements IEnumeratedModelElement {
 		
@@ -78,7 +80,12 @@ public class IntNode extends IntModelElement implements IEnumeratedModelElement 
 	public LinkedHashMap<String, Object> initProperties() {
 		this.sourcePorts = initSourcePorts(element);
 		this.targetPorts = initTargetPorts(element);
-		return super.initProperties();
+		LinkedHashMap<String, Object> props = super.initProperties();
+		if (element == null) {
+			props.put(IntegrationSchemaConstants.ATTR_AUTO_STARTUP, null);
+			props.put(IntegrationSchemaConstants.ATTR_ORDER, null);
+		}
+		return props; 
 	}
 	
 	@Override

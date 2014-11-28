@@ -14,6 +14,7 @@ import org.springframework.integration.json.model.IntModelElement;
 import org.springframework.integration.json.model.IntNode;
 import org.springframework.integration.json.model.Link;
 import org.springframework.integration.json.model.OutboundChannelAdapterNode;
+import org.springframework.integration.json.model.ResequencerNode;
 import org.springframework.integration.json.model.RouterNode;
 import org.springframework.integration.json.model.ServiceActivatorNode;
 import org.springframework.integration.json.model.ThroughNode;
@@ -90,7 +91,7 @@ public class IntegrationModelFactory implements IModelFactory {
 				IntegrationSchemaConstants.ELEM_RECIPIENT_LIST_ROUTER,
 				ThroughNode.class);
 		SUPPORTED_ELEMENTS.put(IntegrationSchemaConstants.ELEM_RESEQUENCER,
-				FilterNode.class);
+				ResequencerNode.class);
 		SUPPORTED_ELEMENTS
 				.put(IntegrationSchemaConstants.ELEM_RESOURCE_INBOUND_CHANNEL_ADAPTER,
 						InboundChannelAdapterNode.class);

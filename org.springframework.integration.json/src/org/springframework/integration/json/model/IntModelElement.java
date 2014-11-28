@@ -2,7 +2,9 @@ package org.springframework.integration.json.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.integration.json.IntegrationSchemaConstants;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,7 +29,9 @@ public class IntModelElement {
 	
 	public LinkedHashMap<String, Object> initProperties() {
 		LinkedHashMap<String, Object> props = new LinkedHashMap<String, Object>();
-		if (element != null) {
+		if (element == null) {
+			props.put(IntegrationSchemaConstants.ATTR_ID, UUID.randomUUID().toString());
+		} else {
 			for (int i = 0; i < element.getAttributes().getLength(); i++) {
 				Node n = element.getAttributes().item(i);
 				if (n instanceof Attr) {

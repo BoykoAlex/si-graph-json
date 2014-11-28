@@ -1,11 +1,11 @@
 package org.springframework.integration.json;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
@@ -127,7 +127,6 @@ public class PaletteHelper {
 	
 	private static ArrayNode initPaletteJson() {
 		ObjectMapper om = new ObjectMapper();
-		om.setSerializationInclusion(Inclusion.NON_NULL);
 		ArrayNode palette = new ArrayNode(JsonNodeFactory.instance);
 		for (Map.Entry<String, Info> entry : ELEMENT_INFO.entrySet()) {
 			ObjectNode json = om.convertValue(entry.getValue(), ObjectNode.class);
@@ -135,10 +134,10 @@ public class PaletteHelper {
 			if (clazz != null) {
 				try {
 					IntModelElement defaultObj = clazz.newInstance();
-					defaultObj.initProperties();
-					if (defaultObj.getProperties() != null) {
+					LinkedHashMap<String, Object> properties = defaultObj.initProperties();
+					if (properties != null && !properties.isEmpty()) {
 						json.put("properties", om.convertValue(
-								defaultObj.getProperties(), ObjectNode.class));
+								properties, ObjectNode.class));
 					}
 				} catch (SecurityException e) {
 					e.printStackTrace();

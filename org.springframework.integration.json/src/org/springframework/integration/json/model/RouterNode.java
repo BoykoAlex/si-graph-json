@@ -1,5 +1,6 @@
 package org.springframework.integration.json.model;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.integration.json.IntegrationSchemaConstants;
@@ -23,5 +24,21 @@ public class RouterNode extends ThroughNode {
 
 		return anchors;
 	}
+
+	@Override
+	public LinkedHashMap<String, Object> initProperties() {
+		LinkedHashMap<String, Object> props = super.initProperties();
+		if (element == null) {
+			props.put(IntegrationSchemaConstants.ATTR_REF, null);
+			props.put(IntegrationSchemaConstants.ATTR_METHOD, null);
+			props.put(IntegrationSchemaConstants.ATTR_CHANNEL_RESOLVER, null);
+			props.put(IntegrationSchemaConstants.ATTR_RESOLUTION_REQUIRED, null);
+			props.put(IntegrationSchemaConstants.ATTR_IGNORE_CHANNEL_NAME_RESOLUTION_FAILURES, null);
+			props.put(IntegrationSchemaConstants.ATTR_TIMEOUT, null);
+		}
+		return props;
+	}
+	
+	
 
 }
